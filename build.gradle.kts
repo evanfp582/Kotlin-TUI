@@ -12,7 +12,7 @@ dependencies {
 
 application {
     // Your files are in package tui/
-    mainClass.set("tui.MainKt")
+    mainClass.set("MainKt")
 }
 
 
