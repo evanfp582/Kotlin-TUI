@@ -7,12 +7,14 @@ repositories { mavenCentral() }
 
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation("jline:jline:2.14.6")
 }
 
 application {
     // Your files are in package tui/
     mainClass.set("tui.MainKt")
 }
+
 
 // Create a runnable fat JAR named Kotlin-TUI.jar
 tasks.register<Jar>("fatJar") {
@@ -43,6 +45,7 @@ tasks.register<Exec>("tuiRun") {
     group = "application"
     description = "Build fat JAR and run it without Gradle noise."
     dependsOn("fatJar")
-    commandLine("java", "-jar", "${buildDir}/libs/Kotlin-TUI.jar")
+    commandLine("java", "-jar", "${layout.buildDirectory}/libs/Kotlin-TUI.jar")
     standardInput = System.`in`
+    isIgnoreExitValue = true
 }
