@@ -1,12 +1,10 @@
 package tui
 
 object Terminal {
-    fun clear() {
-        print(Ansi.Screen.CLEAR_SCREEN + Ansi.Cursor.moveCursor(1, 1))
-    }
-    fun moveCursor(row: Int, col: Int){
-        print(Ansi.Cursor.moveCursor(row, col))
-    }
+    fun clear() { print(Ansi.Screen.CLEAR_SCREEN + Ansi.Cursor.moveCursor(1, 1)) }
+    fun clearRow(row: Int) { print(Ansi.Cursor.moveCursor(row, 0) + Ansi.Screen.CLEAR_LINE) }
+
+    fun moveCursor(row: Int, col: Int){ print(Ansi.Cursor.moveCursor(row, col)) }
 
     fun printAt(row: Int, col: Int, text: String, color: Int? = null, style: String? = null) {
         val colorCode = color?.let { Ansi.Color.color(it) } ?: ""
@@ -96,13 +94,6 @@ object Terminal {
 //        }
 //        println(Ansi.TextStyles.RESET)
 
-    }
-
-    fun select(options: List<String>, title: String? = null) {
-        title?.let { println(formatText(title, style = Ansi.TextStyles.BOLD)) }
-        for (option in options){
-            println(formatText(option))
-        }
     }
 
     fun hideCursor() = print(Ansi.Cursor.HIDE_CURSOR)

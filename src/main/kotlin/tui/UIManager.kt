@@ -10,17 +10,9 @@ class UIManager {
     private val components= mutableListOf<Component>()
     private val staticComponents= mutableListOf<Component>()
 
-    fun addComponent(component: Component) {
-        components.add(component)
-    }
-
-    fun addStaticComponent(component: Component) {
-        staticComponents.add(component)
-    }
-
-    fun renderAll() {
-        components.forEach { it.render() }
-    }
+    fun addComponent(component: Component) { components.add(component) }
+    fun addStaticComponent(component: Component) { staticComponents.add(component) }
+    fun renderAll() { components.forEach { it.render() } }
 
     suspend fun run(block: suspend () -> Unit = {}) {
         Terminal.hideCursor()
@@ -43,12 +35,12 @@ class UIManager {
             reader.bellEnabled = false
 
             while (isActive) {
-                val ch = reader.readCharacter()
-                when (ch) {
+                when (val ch = reader.readCharacter()) {
                     -1 -> cancel()            // EOF
                     'q'.code -> cancel()      // quit
-                    '\r'.code, '\n'.code -> { /* ignore Enter */ }
-                    else -> { }
+                    else -> {
+                        components.forEach { it.handleInput(ch.toChar()) }
+                    }
                 }
             }
         }
