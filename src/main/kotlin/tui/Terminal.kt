@@ -14,6 +14,11 @@ object Terminal {
         val formattedText = "$colorCode$styleCode$text${Ansi.TextStyles.RESET}"
         print(Ansi.Cursor.moveCursor(row, col) + formattedText)
     }
+    fun formatText(text: String, color:Int? = null, style: String? = null): String {
+        val colorCode = color?.let { Ansi.Color.color(it) } ?: ""
+        val styleCode = style ?: ""
+        return "$colorCode$styleCode$text${Ansi.TextStyles.RESET}"
+    }
 
     fun testPage(){
         /**
@@ -91,6 +96,13 @@ object Terminal {
 //        }
 //        println(Ansi.TextStyles.RESET)
 
+    }
+
+    fun select(options: List<String>, title: String? = null) {
+        title?.let { println(formatText(title, style = Ansi.TextStyles.BOLD)) }
+        for (option in options){
+            println(formatText(option))
+        }
     }
 
     fun hideCursor() = print(Ansi.Cursor.HIDE_CURSOR)
