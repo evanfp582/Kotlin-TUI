@@ -10,18 +10,14 @@ class Select(
         Terminal.clearRow(row + options.size)
         Terminal.printAt(row + options.size, 0, "You picked $choice")}
 ): Component {
-    private var highlightedIndex = 0
 
-    object Keybinds {
-        const val UP = 'w'
-        const val DOWN = 's'
-    }
+    private var highlightedIndex = 0
 
     override fun handleInput(key: Char) {
         when (key) {
-            Keybinds.UP -> if (highlightedIndex > 0) highlightedIndex--
-            Keybinds.DOWN -> if (highlightedIndex < options.size - 1) highlightedIndex++
-            '\u000A', '\r' -> onEnter(options[highlightedIndex])
+            Component.Keybinds.UP -> if (highlightedIndex > 0) highlightedIndex--
+            Component.Keybinds.DOWN -> if (highlightedIndex < options.size - 1) highlightedIndex++
+            Component.Keybinds.WINDOWS_ENTER, Component.Keybinds.LINUX_ENTER -> onEnter(options[highlightedIndex])
         }
     }
 
