@@ -1,5 +1,6 @@
 package tui.components
 
+import tui.ScreenObject
 import tui.Terminal
 
 class Select(
@@ -21,7 +22,7 @@ class Select(
         }
     }
 
-    override fun render() {
+    override fun render(screenObject: ScreenObject) {
         options.forEachIndexed { i, option ->
             val prefix = if (i == highlightedIndex) ">" else " "
             Terminal.printAt(row + i, col, "$prefix $option")

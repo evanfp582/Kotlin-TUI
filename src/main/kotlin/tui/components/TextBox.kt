@@ -1,5 +1,6 @@
 package tui.components
 
+import tui.ScreenObject
 import tui.Terminal
 
 class TextBox(
@@ -11,7 +12,7 @@ class TextBox(
 
     var hasControl: Boolean = true
 
-    override fun render() {
+    override fun render(screenObject: ScreenObject) {
         val displayText = text.padEnd(width)
         Terminal.printAt(row, col, "[ $displayText ]")
 

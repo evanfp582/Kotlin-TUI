@@ -10,10 +10,11 @@ import tui.components.TextBox
 class UIManager {
     private val components= mutableListOf<Component>()
     private val staticComponents= mutableListOf<Component>()
+    private val screenObject= ScreenObject(10, 100)
 
     fun addComponent(component: Component) { components.add(component) }
     fun addStaticComponent(component: Component) { staticComponents.add(component) }
-    fun renderAll() { components.forEach { it.render() } }
+    fun renderAll() { components.forEach { it.render(screenObject) } }
 
     suspend fun run(block: suspend () -> Unit = {}) {
         Terminal.hideCursor()
@@ -22,7 +23,7 @@ class UIManager {
         val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
         val renderJob = scope.launch {
-            staticComponents.forEach { it.render() }
+            staticComponents.forEach { it.render(screenObject) }
             while (isActive) {
                 renderAll()
                 // Restore cursor after all components rendered
@@ -32,6 +33,7 @@ class UIManager {
                         Terminal.moveCursor(tb.row, tb.col + 3 + tb.text.length)
                         Terminal.showCursor()
                     }
+                screenObject.render()
                 delay(100)
             }
         }
