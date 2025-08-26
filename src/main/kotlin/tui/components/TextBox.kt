@@ -13,13 +13,12 @@ class TextBox(
     var hasControl: Boolean = true
 
     override fun render(screenObject: ScreenObject) {
-        val displayText = text.padEnd(width)
-//        Terminal.printAt(row, col, "[ $displayText ]")
-        screenObject.setString(row, col, "[$displayText]")
+        var fullText: String = text
         if (hasControl) {
-            Terminal.moveCursor(row, col + 3 + text.length)
-            Terminal.showCursor()
+            fullText += "|"
         }
+        val displayText = fullText.padEnd(width)
+        screenObject.setString(row, col, "[$displayText]")
     }
 
     override fun handleInput(key: Char) {

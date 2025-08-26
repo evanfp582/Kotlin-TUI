@@ -14,6 +14,9 @@ on the terminal with special ANSI codes (found in the ANSI object)
 Fully implement a digital representation of the screen as a char array so both limit regenerating text and to allow 
 for two thing to change at the same time
 
+I need to be able to embed style into the middle of the text associated with a component
+For example I want the last char of a text box to be a blinking box, but honestly my line is not a bad solution
+
 ## Resources
 I used a bunch of public repos and resources to make this.  
 Here is an ongoing list:

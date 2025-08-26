@@ -16,7 +16,7 @@ class UIManager {
     fun addStaticComponent(component: Component) { staticComponents.add(component) }
     fun renderAll() { components.forEach { it.render(screenObject) } }
 
-    suspend fun run(block: suspend () -> Unit = {}) {
+    suspend fun run() {
         Terminal.hideCursor()
         Terminal.clear()
 
@@ -26,15 +26,8 @@ class UIManager {
             staticComponents.forEach { it.render(screenObject) }
             while (isActive) {
                 renderAll()
-                // Restore cursor after all components rendered
-                components.filterIsInstance<TextBox>()
-                    .firstOrNull { it.hasControl }
-                    ?.let { tb ->
-                        Terminal.moveCursor(tb.row, tb.col + 3 + tb.text.length)
-                        Terminal.showCursor()
-                    }
                 screenObject.render()
-                delay(100)
+                delay(50)
             }
         }
 
