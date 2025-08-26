@@ -14,8 +14,8 @@ class TextBox(
 
     override fun render(screenObject: ScreenObject) {
         val displayText = text.padEnd(width)
-        Terminal.printAt(row, col, "[ $displayText ]")
-
+//        Terminal.printAt(row, col, "[ $displayText ]")
+        screenObject.setString(row, col, "[$displayText]")
         if (hasControl) {
             Terminal.moveCursor(row, col + 3 + text.length)
             Terminal.showCursor()
