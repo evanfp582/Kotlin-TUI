@@ -4,6 +4,7 @@ import tui.ScreenObject
 import tui.Terminal
 
 class TextBox(
+    override var screenObject: ScreenObject,
     override var row: Int,
     override var col: Int,
     private val width: Int,
@@ -12,7 +13,7 @@ class TextBox(
 
     var hasControl: Boolean = true
 
-    override fun render(screenObject: ScreenObject) {
+    override fun render() {
         var fullText: String = text
         if (hasControl) {
             fullText += "|"

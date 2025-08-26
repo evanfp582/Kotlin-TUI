@@ -7,14 +7,13 @@ import kotlinx.coroutines.*
 import tui.components.TextBox
 
 
-class UIManager {
+class UIManager(private var screenObject: ScreenObject) {
     private val components= mutableListOf<Component>()
     private val staticComponents= mutableListOf<Component>()
-    private val screenObject= ScreenObject(10, 100)
 
     fun addComponent(component: Component) { components.add(component) }
     fun addStaticComponent(component: Component) { staticComponents.add(component) }
-    fun renderAll() { components.forEach { it.render(screenObject) } }
+    fun renderAll() { components.forEach { it.render() } }
 
     suspend fun run() {
         Terminal.hideCursor()
@@ -23,7 +22,7 @@ class UIManager {
         val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
         val renderJob = scope.launch {
-            staticComponents.forEach { it.render(screenObject) }
+            staticComponents.forEach { it.render() }
             while (isActive) {
                 renderAll()
                 screenObject.render()

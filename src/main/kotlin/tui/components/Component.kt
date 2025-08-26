@@ -3,9 +3,10 @@ package tui.components
 import tui.ScreenObject
 
 interface Component {
+    var screenObject: ScreenObject
     var row: Int
     var col: Int
-    fun render(screenObject: ScreenObject)
+    fun render()
     fun handleInput(key: Char)
     object Keybinds {
         const val UP = 'w'

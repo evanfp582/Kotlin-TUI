@@ -17,6 +17,9 @@ for two thing to change at the same time
 I need to be able to embed style into the middle of the text associated with a component
 For example I want the last char of a text box to be a blinking box, but honestly my line is not a bad solution
 
+I need to not destroy a whole row when anything get edited on it. I need a way of determining ownership for each component  
+
+
 ## Resources
 I used a bunch of public repos and resources to make this.  
 Here is an ongoing list:
