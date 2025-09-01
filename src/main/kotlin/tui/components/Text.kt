@@ -1,8 +1,6 @@
 package tui.components
 
-import tui.Ansi
 import tui.ScreenObject
-import tui.Terminal
 
 class Text(
     override var screenObject: ScreenObject,
@@ -14,9 +12,8 @@ class Text(
     /*
     Plain text element
     */
-    override fun render(){
-        screenObject.setString(row,col, "$style$text${Ansi.TextStyles.RESET}")
-    }
+    override val area: Area = Area(row, col, 1, text.length)
+    override fun render(){ screenObject.setString(row,col, text, style) }
     override fun handleInput(key: Char): Unit {}
 
 }

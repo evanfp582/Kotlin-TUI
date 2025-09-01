@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.2.0"
     application
+     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 repositories { mavenCentral() }
@@ -11,12 +12,11 @@ dependencies {
 }
 
 application {
-    // Your files are in package tui/
     mainClass.set("MainKt")
 }
 
 
-// Create a runnable fat JAR named Kotlin-TUI.jar
+// ---- Fat jar task (yours) ----
 tasks.register<Jar>("fatJar") {
     group = "build"
     description = "Assemble a runnable fat JAR."
@@ -37,10 +37,10 @@ tasks.register<Jar>("fatJar") {
     manifest { attributes["Main-Class"] = application.mainClass.get() }
 }
 
-// Make `build` also produce the fat jar
+// Ensure build also produces fat jar
 tasks.named("build") { dependsOn("fatJar") }
 
-// Clean run that builds the fat jar then executes it
+// Run helper
 tasks.register<Exec>("tuiRun") {
     group = "application"
     description = "Build fat JAR and run it without Gradle noise."

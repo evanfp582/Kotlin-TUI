@@ -1,42 +1,59 @@
 package tui
 
+import jline.TerminalFactory
+import kotlin.Array
+
 class ScreenObject(val rows: Int, val cols: Int) {
-    private val buffer: Array<CharArray> = Array(rows) { CharArray(cols) {' '} }
+    private val terminal: jline.Terminal = TerminalFactory.get()
+    val terminalWidth = terminal.width
+    val terminalHeight = terminal.height
 
-    private val diffArray: Array<Boolean> = Array(rows) {false}
+    private val buffer: Array<CharArray> = Array(terminalHeight) { CharArray(terminalWidth) { ' ' } }
+    private val styleBuffer: Array<Array<String?>> = Array(terminalHeight) { Array(terminalWidth) { null } }
 
-    fun clear() {
-        for (row in 0..rows){
-            for (col in 0..cols){
-                buffer[row][col] = ' '
-            }
-            diffArray[row] = true
-        }
-    }
+    private val diffArray: Array<Boolean> = Array(terminalHeight) {false}
 
-    fun clear_row(row: Int){
-        for (i in 0..<cols){
-            buffer[row][i] = ' '
-        }
-    }
-
-    fun setChar(row: Int, col: Int, char: Char){
-        buffer[row][col] = char
-    }
-
-    fun setString(row: Int, col: Int, string: String){
+    fun setString(row: Int, col: Int, string: String, style: String = "") {
         diffArray[row] = true
-        clear_row(row)
-        for ((index, char) in string.withIndex()){
-            buffer[row][col+index] = char
+        for ((index, char) in string.withIndex()) {
+            if (col + index < terminalWidth) {
+                buffer[row][col + index] = char
+                styleBuffer[row][col + index] = style
+            }
+            else{
+                throw IllegalArgumentException(
+                    "Tried to set component with string ${string}outside width of terminal ($terminalWidth)"
+                )
+            }
+        }
+    }
+
+    fun cleanRow(row:Int, col:Int, startingCol:Int=0){
+        for (index in startingCol..col) {
+            buffer[row][index] = ' '
+            styleBuffer[row][index] = null
         }
     }
 
     fun render() {
-        for ((index, bool) in diffArray.withIndex()){
-            if (bool) {
-                val changes =  buffer[index].joinToString("")
-                Terminal.printAt(index, 0, changes.padEnd(cols-buffer[index].joinToString("").length, '*'))
+        for ((rowIndex, dirty) in diffArray.withIndex()){
+            if (dirty) {
+                val str = StringBuilder()
+                var currentStyle: String? = null
+
+                for (col in 0 until terminalWidth) {
+                    val style = styleBuffer[rowIndex][col]
+                    if (style != currentStyle) {
+                        if (currentStyle != null) { str.append(Ansi.TextStyles.RESET) }
+                        if (style != null) { str.append(style) }
+                        currentStyle = style
+                    }
+                    str.append(buffer[rowIndex][col])
+                }
+
+                if (currentStyle != null) str.append(Ansi.TextStyles.RESET)
+                Terminal.printAt(rowIndex, 0, str.toString())
+                diffArray[rowIndex] = false
             }
         }
     }

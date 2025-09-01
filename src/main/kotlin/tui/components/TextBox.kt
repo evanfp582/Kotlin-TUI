@@ -10,7 +10,7 @@ class TextBox(
     private val width: Int,
     var text: String = ""
 ): Component {
-
+    override val area: Area = Area(row, col, 0, width)
     var hasControl: Boolean = true
 
     override fun render() {

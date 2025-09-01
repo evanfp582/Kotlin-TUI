@@ -6,6 +6,7 @@ interface Component {
     var screenObject: ScreenObject
     var row: Int
     var col: Int
+    val area: Area
     fun render()
     fun handleInput(key: Char)
     object Keybinds {
@@ -15,3 +16,4 @@ interface Component {
         const val LINUX_ENTER = '\u000A'
     }
 }
+data class Area(val row: Int, val col: Int, val height: Int, val width: Int)
