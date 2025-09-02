@@ -6,11 +6,12 @@ import tui.Terminal
 class TextBox(
     override var screenObject: ScreenObject,
     override var row: Int,
-    override var col: Int,
+    override var col: Int?,
     private val width: Int,
     var text: String = ""
 ): Component {
-    override val area: Area = Area(row, col, 0, width)
+    override val area: Area = Area(row, col ?: 0, 1, width)
+    override val centeredStartingPoint = (screenObject.terminalWidth / 2) - (width / 2)
     var hasControl: Boolean = true
 
     override fun render() {
@@ -19,7 +20,7 @@ class TextBox(
             fullText += "|"
         }
         val displayText = fullText.padEnd(width)
-        screenObject.setString(row, col, "[$displayText]")
+        screenObject.setString(row, col ?: 0, "[$displayText]")
     }
 
     override fun handleInput(key: Char) {

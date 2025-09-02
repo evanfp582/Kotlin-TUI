@@ -1,11 +1,12 @@
 package tui.components
 
 import tui.ScreenObject
+import kotlin.math.round
 
 class Title(
     override var screenObject: ScreenObject,
     override var row: Int,
-    override var col: Int,
+    override var col: Int?,
     private var text: String,
 //    private var centered: Boolean=true,
     private var style: String=""
@@ -14,8 +15,9 @@ class Title(
     private var lines = text.lines()
     private var height = lines.size
     private var width = lines.maxOf { it.length }
+    override val centeredStartingPoint = (screenObject.terminalWidth / 2) - (width / 2)
 
-    override val area: Area = Area(row, col, height, width)
+    override val area: Area = Area(row, col ?: centeredStartingPoint, height, width)
 
     init {
         if (width > screenObject.terminalWidth){
@@ -33,7 +35,7 @@ class Title(
 
     override fun render(){
         text.lines().forEachIndexed { index, line ->
-            screenObject.setString(row+index, col,  line, style)
+            screenObject.setString(row+index, col ?: centeredStartingPoint,  line, style)
         }
     }
     override fun handleInput(key: Char) = Unit

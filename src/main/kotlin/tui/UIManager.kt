@@ -34,7 +34,7 @@ class UIManager(private var screenObject: ScreenObject) {
 
     fun clearRowInComponent(component: Component, row: Int) {
         //Assume row is a valid row for the component
-        screenObject.cleanRow(row, component.col+component.area.width, component.col)
+        screenObject.cleanRow(row, (component.col ?: 0)+component.area.width, (component.col ?: 0))
     }
 
     fun addStaticComponent(component: Component) { staticComponents.add(component) }
@@ -51,7 +51,7 @@ class UIManager(private var screenObject: ScreenObject) {
             while (isActive) {
                 renderAll()
                 screenObject.render()
-                delay(50)
+                delay(10)
             }
         }
 

@@ -5,14 +5,24 @@ import tui.ScreenObject
 class Select(
     override var screenObject: ScreenObject,
     override var row: Int,
-    override var col: Int,
+    override var col: Int?,
     private var options: List<String>,
     private var onEnter: (String) -> Unit = { choice ->
-        screenObject.cleanRow(row + options.size, col+options.maxOf { it.length + 3 }, 0)
-        screenObject.setString(row + options.size, 0, "-> $choice")
+        var largestLine = options.maxOf { it.length + 3 }
+        val centeredStartingPoint = (screenObject.terminalWidth / 2) - (largestLine / 2)
+        val prefix = "Selected "
+        screenObject.cleanRow(
+            row + options.size,
+            (col ?: centeredStartingPoint)+options.maxOf { it.length + prefix.length },
+            (col ?: centeredStartingPoint)
+        )
+        screenObject.setString(row + options.size, (col ?: centeredStartingPoint), "$prefix$choice")
     }
 ): Component {
-    override val area: Area = Area(row, col, options.size + 1, options.maxOf { it.length + 3 })
+    private val prefix = "Selected "
+    private val largestLine = options.maxOf { it.length + prefix.length}
+    override val area: Area = Area(row, col ?: 0, options.size + 1, largestLine)
+    override val centeredStartingPoint = (screenObject.terminalWidth / 2) - (largestLine / 2)
     private var highlightedIndex = 0
 
 
@@ -27,7 +37,7 @@ class Select(
     override fun render() {
         options.forEachIndexed { i, option ->
             val prefix = if (i == highlightedIndex) ">" else " "
-            screenObject.setString(row+i, col, "$prefix $option")
+            screenObject.setString(row+i, col ?: centeredStartingPoint, "$prefix $option")
 
         }
     }

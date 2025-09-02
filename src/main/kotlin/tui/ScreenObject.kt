@@ -3,7 +3,7 @@ package tui
 import jline.TerminalFactory
 import kotlin.Array
 
-class ScreenObject(val rows: Int, val cols: Int) {
+class ScreenObject() {
     private val terminal: jline.Terminal = TerminalFactory.get()
     val terminalWidth = terminal.width
     val terminalHeight = terminal.height

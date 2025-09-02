@@ -5,8 +5,9 @@ import tui.ScreenObject
 interface Component {
     var screenObject: ScreenObject
     var row: Int
-    var col: Int
+    var col: Int?
     val area: Area
+    val centeredStartingPoint: Int
     fun render()
     fun handleInput(key: Char)
     object Keybinds {
