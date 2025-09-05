@@ -1,6 +1,7 @@
 package tui
 
 import jline.TerminalFactory
+import tui.components.Component
 import kotlin.Array
 
 class ScreenObject() {
@@ -8,10 +9,33 @@ class ScreenObject() {
     val terminalWidth = terminal.width
     val terminalHeight = terminal.height
 
+    // What I consider to be the "state" of the screen
     private val buffer: Array<CharArray> = Array(terminalHeight) { CharArray(terminalWidth) { ' ' } }
     private val styleBuffer: Array<Array<String?>> = Array(terminalHeight) { Array(terminalWidth) { null } }
-
+    private val ownershipMatrix: Array<Array<Int?>> = Array(terminalHeight) { Array<Int?>(terminalWidth) { null } }
     private val diffArray: Array<Boolean> = Array(terminalHeight) {false}
+
+    val components = mutableListOf<Component>()
+
+    fun renderAll() { components.forEach { it.render() } }
+
+    fun addComponent(component: Component) {
+        val area = component.area
+        // Check if area fits in screen
+        if (area.row + area.height > terminalHeight ||
+            area.col + area.width > terminalWidth) {
+            error("Component $component is too big for the screen")
+        }
+        // Check for overlap
+        for (row in area.row until area.row + area.height) {
+            for (col in area.col until area.col + area.width) {
+                if (ownershipMatrix[row][col] != null) { error("Component $component overlaps another component at ($row, $col)") }
+                ownershipMatrix[row][col] = components.size
+            }
+        }
+        components.add(component)
+    }
+    fun addComponents(components: Array<Component>){ components.forEach { addComponent(it) }}
 
     fun setString(row: Int, col: Int, string: String, style: String = "") {
         diffArray[row] = true
@@ -57,5 +81,4 @@ class ScreenObject() {
             }
         }
     }
-
 }
