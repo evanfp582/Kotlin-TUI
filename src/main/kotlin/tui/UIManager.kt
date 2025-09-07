@@ -27,7 +27,7 @@ class UIManager() {
             while (isActive) {
                 currentScreen?.renderAll()
                 currentScreen?.render()
-                delay(10)
+                delay(50)
             }
         }
 

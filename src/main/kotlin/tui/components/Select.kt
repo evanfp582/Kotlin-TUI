@@ -19,6 +19,7 @@ class Select(
         screenObject.setString(row + options.size, (col ?: centeredStartingPoint), "$prefix$choice")
     }
 ): Component {
+    override var isDirty: Boolean = true
     private val prefix = "Selected "
     private val largestLine = options.maxOf { it.length + prefix.length}
     override val area: Area = Area(row, col ?: 0, options.size + 1, largestLine)
@@ -32,13 +33,16 @@ class Select(
             Component.Keybinds.DOWN -> if (highlightedIndex < options.size - 1) highlightedIndex++
             Component.Keybinds.WINDOWS_ENTER, Component.Keybinds.LINUX_ENTER -> onEnter(options[highlightedIndex])
         }
+        isDirty = true
     }
 
     override fun render() {
-        options.forEachIndexed { i, option ->
-            val prefix = if (i == highlightedIndex) ">" else " "
-            screenObject.setString(row+i, col ?: centeredStartingPoint, "$prefix $option")
-
+        if (isDirty) {
+            options.forEachIndexed { i, option ->
+                val prefix = if (i == highlightedIndex) ">" else " "
+                screenObject.setString(row + i, col ?: centeredStartingPoint, "$prefix $option")
+            }
         }
+        isDirty = false
     }
 }

@@ -16,7 +16,7 @@ class Title(
     private var height = lines.size
     private var width = lines.maxOf { it.length }
     override val centeredStartingPoint = (screenObject.terminalWidth / 2) - (width / 2)
-
+    override var isDirty: Boolean = true
     override val area: Area = Area(row, col ?: centeredStartingPoint, height, width)
 
     init {
@@ -34,8 +34,11 @@ class Title(
 
 
     override fun render(){
-        text.lines().forEachIndexed { index, line ->
-            screenObject.setString(row+index, col ?: centeredStartingPoint,  line, style)
+        if (isDirty) {
+            text.lines().forEachIndexed { index, line ->
+                screenObject.setString(row+index, col ?: centeredStartingPoint,  line, style)
+            }
+            isDirty = false
         }
     }
     override fun handleInput(key: Char) = Unit

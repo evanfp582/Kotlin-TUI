@@ -8,6 +8,7 @@ interface Component {
     var col: Int?
     val area: Area
     val centeredStartingPoint: Int
+    var isDirty: Boolean
     fun render()
     fun handleInput(key: Char)
     object Keybinds {
