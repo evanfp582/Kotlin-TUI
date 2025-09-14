@@ -15,9 +15,17 @@ class ScreenObject() {
     private val ownershipMatrix: Array<Array<Int?>> = Array(terminalHeight) { Array<Int?>(terminalWidth) { null } }
     private val diffArray: Array<Boolean> = Array(terminalHeight) {false}
 
+    private var globalFlagArray: BooleanArray? = null
+    private var myFlag: Int? = null
+
     val components = mutableListOf<Component>()
 
     fun renderAll() { components.forEach { it.render() } }
+
+    fun setFlag(flagArray: BooleanArray, flag: Int){
+        globalFlagArray = flagArray
+        myFlag = flag
+    }
 
     fun addComponent(component: Component) {
         val area = component.area

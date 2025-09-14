@@ -7,17 +7,7 @@ class Select(
     override var row: Int,
     override var col: Int?,
     private var options: List<String>,
-    private var onEnter: (String) -> Unit = { choice ->
-        var largestLine = options.maxOf { it.length + 3 }
-        val centeredStartingPoint = (screenObject.terminalWidth / 2) - (largestLine / 2)
-        val prefix = "Selected "
-        screenObject.cleanRow(
-            row + options.size,
-            (col ?: centeredStartingPoint)+options.maxOf { it.length + prefix.length },
-            (col ?: centeredStartingPoint)
-        )
-        screenObject.setString(row + options.size, (col ?: centeredStartingPoint), "$prefix$choice")
-    }
+    private var onEnter: (String) -> Unit = { choice -> defaultOnEnter(screenObject, row, col, options, choice) }
 ): Component {
     override var isDirty: Boolean = true
     private val prefix = "Selected "
@@ -45,4 +35,27 @@ class Select(
         }
         isDirty = false
     }
+
+    companion object {
+        fun defaultOnEnter(
+            screenObject: ScreenObject,
+            row: Int,
+            col: Int?,
+            options: List<String>,
+            choice: String
+        ) {
+            val prefix = "Selected "
+            val largestLine = options.maxOf { it.length + prefix.length }
+            val centeredStartingPoint = (screenObject.terminalWidth / 2) - (largestLine / 2)
+
+            screenObject.cleanRow(
+                row + options.size,
+                (col ?: centeredStartingPoint) + largestLine,
+                (col ?: centeredStartingPoint)
+            )
+            screenObject.setString(row + options.size, (col ?: centeredStartingPoint), "$prefix$choice")
+        }
+    }
+
 }
+

@@ -85,6 +85,11 @@ I'd very much believe that there exists 10+ Kotlin/Java/Python TUI that do all t
 I want to create a React inspired TUI build in Kotlin that seamlessly merges front end generation with programmatic logic.  
 But my real answer is I want to have fun, learn something new, and dig my teeth into a longer project.
 
+### The flag approach to screen control (9/13)
+The UIManager creates an array of booleans and essentially hand out a flag to the screen when it gets added  
+The screen just needs to raise their flag (turn it true) and they will be given control of the screen  
+I do not love the implementation I took. to both add custom OnEnter functions for select components and routing.  
+The main.kt is supposed to represent a use making something of their own. I think that weird map is not very intuitive.  
 
 ## Resources
 I used a bunch of public repos and resources to make this.  
