@@ -1,5 +1,6 @@
 package tui.components
 
+import tui.DebugLogger
 import tui.ScreenObject
 import kotlin.math.round
 
@@ -32,6 +33,11 @@ class Title(
         }
     }
 
+    fun forceRerender() {
+        isDirty = true
+        render()
+        isDirty = false
+    }
 
     override fun render(){
         if (isDirty) {

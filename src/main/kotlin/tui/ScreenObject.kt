@@ -20,7 +20,10 @@ class ScreenObject() {
 
     val components = mutableListOf<Component>()
 
-    fun renderAll() { components.forEach { it.render() } }
+    fun renderAll(makeDirty: Boolean = false) { components.forEach {
+        it.isDirty =  it.isDirty || makeDirty
+        it.render()
+    }}
 
     fun setFlag(flagArray: BooleanArray, flag: Int){
         globalFlagArray = flagArray

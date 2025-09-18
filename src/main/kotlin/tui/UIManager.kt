@@ -9,13 +9,19 @@ class UIManager() {
     private val screens = mutableListOf<ScreenObject>()
     var flagArray = BooleanArray(25)  {false} //todo I guess I am maxing at 25 screens, this should not be hard coded like this
     private var currentScreen: ScreenObject? = null
+    private var screenOrder= mutableListOf<Int>() // Represents the orders of screens traversed
     //TODO Add a screen stack that keeps track of the order of screens traversed
+
+    init {
+        DebugLogger.initLog()
+    }
 
     fun addScreen(screen: ScreenObject) {
         screens.add(screen)
         screen.setFlag(flagArray, screens.size-1)
         if (currentScreen == null) {
-         currentScreen = screen
+            screenOrder.add(0)
+            currentScreen = screen
         }
     }
 
@@ -31,7 +37,9 @@ class UIManager() {
                 flagArray.indexOfFirst { it }
                     .takeIf { it != -1 }
                     ?.let {
+                        screenOrder.add(it)
                         currentScreen = screens[it]
+                        currentScreen?.renderAll(true)
                         flagArray[it] = false
                     }
 
@@ -48,7 +56,17 @@ class UIManager() {
             reader.bellEnabled = false
 
             while (isActive) {
-                when (val ch = reader.readCharacter()) {
+                val ch = reader.readCharacter()
+                DebugLogger.log("Pressed $ch")
+                when (ch) {
+                    '\b'.code -> {
+                        if (screenOrder.size > 1) {
+                            print(Ansi.Screen.CLEAR_SCREEN)
+                            currentScreen = screens[screenOrder.size-2]
+                            screenOrder.removeAt(screenOrder.lastIndex-1)
+                            currentScreen?.renderAll(true)
+                        }
+                    }
                     -1 -> cancel()            // EOF
                     'q'.code -> cancel()      // quit
                     else -> {
