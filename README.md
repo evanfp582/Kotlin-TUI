@@ -3,20 +3,23 @@
 ---
 Make a Kotlin Terminal User Interface from scratch 
 
-## ACTIVE TODO
+## TODO
 
 ---------------
 Activities with higher priority are put to the top of the list.  
-I am not sure what I want to do with done tasks tbh
+I am not sure what I want to do with done tasks tbh. Maybe just leave them 
 
 - [ ] Better onEnter function for select
   - Like the ability to go to multiple screens
 - [ ] Style in middle of text
   - I think I may have accidentally done this
+- [ ] **IN PROG: Normal Buttons**
+  - I think it is weird I did not think of this earlier
+  - I need to design a button and how to show when a button is pressed
 - [X] Multiline text/components
     - Partially implemented
-- [ ] **IN PROG: Multiple screens**
-  - Vey importantly I need to create a router type system
+- [X] Multiple screens
+  - Very importantly I need to create a router type system
 - [X] Component area ownership
     - [ ] Clearing owned areas
 - [ ] Ownership of Curser 
@@ -25,7 +28,7 @@ I am not sure what I want to do with done tasks tbh
 - [ ] ASCI ART. Boxes, borders, lines, cool text
 - Nested Components
 - [ ] Markdown parser 
-  - so I can just turn my readme into a page in my app
+  - so I can just turn my/any readme into a page in my app
 - [ ] Bouncing ball simulation
   - I don't have a good useful case where this would be important, but I just think dealing with the math,
   angles, and tick rate would be an interesting challenge to solve
@@ -36,6 +39,17 @@ I learned that in order to run this I need to execute
 ./gradlew clean fatJar; java -jar build/libs/Kotlin-TUI.jar
 ```
 
+I also made a "playground" main where I just mess with things. It is a very similar command  
+```cmd
+./gradlew clean playgroundJar; java -jar build/libs/Kotlin-TUI-Playground.jar
+```
+
+### Debugger
+I am actually a litte proud on how quickly I was able to whip up a debug log because debugging in intelij for a TUI was a pain in the butt.  
+Whenever you want to keep track of a log just write `DebugLogger.log("MESSAGE)` and it will appear in debug.log with a timestamp.
+In order to keep track of the updating debug log you can run this command
+`Get-Content .\debug.log -Wait` while in the Kotlin-TUI directory 
+
 ## What I have
 I am able to print characters (all found under the symbols package) 
 on the terminal with special ANSI codes (found in the ANSI object)
@@ -44,14 +58,17 @@ on the terminal with special ANSI codes (found in the ANSI object)
 - ScreenObject
 - UIManager
 - Terminal
+- DebugLogger
+- Components
 
 ### Component List:
-- Text- a simple text component
-- Title- a multiline text component, little redundant 
-- Select- A classic multi select component where something happens when you select an option
-- TextBox- An input window for text
+- Text- Simple text component
+- Title- Multiline text component, little redundant 
+- Select- Classic multi select component where something happens when you select an option
+- TextBox- Input window for text
+- Button- Press button, do something
 
-## Past logs
+## Dev logs
 
 --------------------------------------------------------------
 ### Restructuring (9/1 or something)    
@@ -91,8 +108,25 @@ The screen just needs to raise their flag (turn it true) and they will be given 
 I do not love the implementation I took. to both add custom OnEnter functions for select components and routing.  
 The main.kt is supposed to represent a use making something of their own. I think that weird map is not very intuitive.  
 
+### How to maneuver around a screen (9/28)
+Since I am making more and more complex components that each require "control" of  the cursor I need to start to determine how 
+to intuitively allow the user to switch between which components have control of the curser in the absense of a mouse.  
+There are a few ways of doing this and I actually want to have fun with it
+- Linked List!?
+  - I can make a linked list object that just points to each component and if I press `tab` I go forward in the list and if I press `shift+tab` I go back in the list
+  - To make a linked list for good instead of evil (LeetCode) actually sounds like a fun idea  
+ - Tree!?
+   - When components are created within a screen connect to other components so the user can use the arrow keys to traverse the screen
+   - Certainly more complex, but also just a fun CS problem to solve
+   - Works more intuitively with the Select component where I press up and down to select between options there  
+
+ I am undecided and will need to make a choice as soon as I finish designing this button component
+
+
 ## Resources
 I used a bunch of public repos and resources to make this.  
 Here is an ongoing list:  
-Unicode Character list- https://github.com/ehmicky/cross-platform-terminal-characters  
+Unicode Character list- https://github.com/ehmicky/cross-platform-terminal-characters
+A bunch of ASCI art websites. When I use a specific one I will make sure to credit the author, 
+otherwise I will credit the site that I used to generate the art
 
