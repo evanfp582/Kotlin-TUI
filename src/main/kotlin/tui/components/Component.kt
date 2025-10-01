@@ -10,6 +10,24 @@ interface Component {
     val centeredStartingPoint: Int
     var isDirty: Boolean
     fun render()
+    fun forceRerender() {
+        isDirty = true
+        render()
+        isDirty = false
+    }
+    fun validateSize() {
+        if (area.width > screenObject.terminalWidth){
+            throw IllegalArgumentException(
+                "Title with width (${area.width}) exceeds terminal width of (${screenObject.terminalWidth})"
+            )
+        }
+        if (area.height > screenObject.terminalHeight){
+            throw IllegalArgumentException(
+                "Title with width (${area.height}) exceeds terminal width of (${screenObject.terminalHeight})"
+            )
+        }
+    }
+
     fun handleInput(key: Char)
     object Keybinds {
         const val UP = 'w'

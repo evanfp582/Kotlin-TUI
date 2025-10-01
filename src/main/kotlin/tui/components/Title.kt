@@ -21,22 +21,7 @@ class Title(
     override val area: Area = Area(row, col ?: centeredStartingPoint, height, width)
 
     init {
-        if (width > screenObject.terminalWidth){
-            throw IllegalArgumentException(
-                "Title with width ($width) exceeds terminal width of (${screenObject.terminalWidth})"
-                )
-        }
-        if (height > screenObject.terminalHeight){
-            throw IllegalArgumentException(
-                "Title with width ($height) exceeds terminal width of (${screenObject.terminalHeight})"
-            )
-        }
-    }
-
-    fun forceRerender() {
-        isDirty = true
-        render()
-        isDirty = false
+        validateSize()
     }
 
     override fun render(){
