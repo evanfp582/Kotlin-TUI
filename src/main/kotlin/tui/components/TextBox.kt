@@ -1,7 +1,7 @@
 package tui.components
 
+import tui.DebugLogger
 import tui.ScreenObject
-import tui.Terminal
 
 class TextBox(
     override var screenObject: ScreenObject,
@@ -9,16 +9,16 @@ class TextBox(
     override var col: Int?,
     private val width: Int,
     var text: String = ""
-): Component {
+): ControllableComponent {
     override var isDirty: Boolean = true
+    override var isFocused: Boolean = false
     override val area: Area = Area(row, col ?: 0, 1, width)
     override val centeredStartingPoint = (screenObject.terminalWidth / 2) - (width / 2)
-    var hasControl: Boolean = true
 
     override fun render() {
         if (isDirty){
             var fullText: String = text
-            if (hasControl) {
+            if (isFocused) {
                 fullText += "|"
             }
             val displayText = fullText.padEnd(width)
@@ -27,22 +27,25 @@ class TextBox(
         }
     }
 
-    override fun handleInput(key: Char) {
-        if (!hasControl) return
-        when (key.code) {
-            8, 127 -> {
-                if (text.isNotEmpty()) {
-                    text = text.dropLast(1)
+    override fun handleInput(ch: Char) {
+        if (isFocused) {
+            when (ch.code) {
+                8, 127 -> {
+                    if (text.isNotEmpty()) {
+                        text = text.dropLast(1)
+                    }
+                }
+                13 -> { // Enter
+                    DebugLogger.log("Select Text: $text")
+                }
+                else -> {
+                    if (!ch.isISOControl() && text.length < width) {
+                        text += ch
+                    }
                 }
             }
-
-            else -> {
-                if (!key.isISOControl() && text.length < width) {
-                    text += key
-                }
-            }
+            isDirty = true
         }
-        isDirty = true
     }
 
 

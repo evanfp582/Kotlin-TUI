@@ -6,6 +6,7 @@ import tui.UIManager
 import tui.components.Button
 import tui.components.Select
 import tui.components.Text
+import tui.components.TextBox
 import tui.components.Title
 
 fun main(): Unit = runBlocking {
@@ -24,7 +25,7 @@ fun main(): Unit = runBlocking {
 
     val secondaryButton = """
 |~~~~~~~~~~~~~~|
-|    Button    |
+|  Odd Button  |
 |~~~~~~~~~~~~~~|
     """.trimIndent()
 
@@ -34,9 +35,11 @@ fun main(): Unit = runBlocking {
             addComponents(
                 arrayOf(
 //                    Title(this, 3, null, title),
-                    Button(this, 3, null).apply { hasControl=false },
-                    Button(this, 8, 10, secondaryButton).apply { hasControl=true },
-                    Button(this, 13, 20).apply { hasControl=false }
+                    Button(this, 3, null),
+                    Button(this, 8, 10, secondaryButton),
+                    Button(this, 13, 20),
+                    Select(this, 16, null, listOf("Programs", "Test Page", "README")),
+                    TextBox(this, 13, 50, 20, "Default String?")
                 )
             )
         }

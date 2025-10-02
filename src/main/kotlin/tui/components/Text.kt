@@ -22,6 +22,4 @@ class Text(
             isDirty = false
         }
     }
-    override fun handleInput(key: Char): Unit {}
-
 }

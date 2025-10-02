@@ -32,5 +32,4 @@ class Title(
             isDirty = false
         }
     }
-    override fun handleInput(key: Char) = Unit
 }

@@ -59,7 +59,8 @@ class UIManager() {
                 val ch = reader.readCharacter()
                 DebugLogger.log("Pressed $ch")
                 when (ch) {
-                    '\b'.code -> {
+//                    '\b'.code -> { // If Backspace, do something
+                    126 -> { // Temporary fix until I deal with stuff with backspace in TextBox
                         if (screenOrder.size > 1) {
                             print(Ansi.Screen.CLEAR_SCREEN)
                             currentScreen = screens[screenOrder.size-2]
@@ -68,9 +69,9 @@ class UIManager() {
                         }
                     }
                     -1 -> cancel()            // EOF
-                    'q'.code -> cancel()      // quit
+//                    'q'.code -> cancel()      // quit
                     else -> {
-                        currentScreen?.components?.forEach { it.handleInput(ch.toChar()) }
+                        currentScreen?.handleInput(ch.toChar())
                     }
                 }
             }

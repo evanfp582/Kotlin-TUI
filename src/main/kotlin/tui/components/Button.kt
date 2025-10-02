@@ -12,9 +12,8 @@ class Button(
 +------+
 |Button|
 +------+""".trimIndent(),
-): Component {
-
-    var hasControl: Boolean = true
+): ControllableComponent {
+    override var isFocused: Boolean = false
     var isPressed: Boolean = false
 
     private var lines = buttonText.lines()
@@ -35,7 +34,7 @@ class Button(
     override fun render(){
         if (isDirty) {
             buttonText.lines().forEachIndexed { index, line ->
-                if (hasControl){
+                if (isFocused){
                     screenObject.setString(row+index, col ?: centeredStartingPoint,  line, Ansi.TextStyles.REVERSE)
                 }else {
                     screenObject.setString(row+index, col ?: centeredStartingPoint,  line)
@@ -46,10 +45,10 @@ class Button(
         }
     }
 
-    override fun handleInput(key: Char) {
-        if (hasControl) {
-            when (key) {
-                Component.Keybinds.WINDOWS_ENTER, Component.Keybinds.LINUX_ENTER -> {
+    override fun handleInput(ch: Char) {
+        if (isFocused) {
+            when (ch) {
+                ControllableComponent.Keybinds.WINDOWS_ENTER, ControllableComponent.Keybinds.LINUX_ENTER -> {
                     DebugLogger.log("Button Pressed")
                 }
             }

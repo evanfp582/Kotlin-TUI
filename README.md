@@ -22,9 +22,10 @@ I am not sure what I want to do with done tasks tbh. Maybe just leave them
   - Very importantly I need to create a router type system
 - [X] Component area ownership
     - [ ] Clearing owned areas
-- [ ] Ownership of Curser 
+- [X] Ownership of Curser 
   - Figure out ability to move cursor between components that can both use it
   - Tabbing between components feels like a pretty natural fix, but I do not know if I can shift tab, I do not know
+  - I have a rudimentary fix
 - [ ] ASCI ART. Boxes, borders, lines, cool text
 - Nested Components
 - [ ] Markdown parser 
@@ -121,6 +122,9 @@ There are a few ways of doing this and I actually want to have fun with it
    - Works more intuitively with the Select component where I press up and down to select between options there  
 
  I am undecided and will need to make a choice as soon as I finish designing this button component
+#### (10/1) 
+I have a quick and dirty solution with just an array whose order is determined by order of creation
+I am happy with how quickly I was able to throw it together though 
 
 
 ## Resources

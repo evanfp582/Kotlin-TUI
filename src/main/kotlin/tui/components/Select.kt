@@ -8,8 +8,9 @@ class Select(
     override var col: Int?,
     private var options: List<String>,
     private var onEnter: (String) -> Unit = { choice -> defaultOnEnter(screenObject, row, col, options, choice) }
-): Component {
+): ControllableComponent {
     override var isDirty: Boolean = true
+    override var isFocused: Boolean = false
     private val prefix = "Selected "
     private val largestLine = options.maxOf { it.length + prefix.length}
     override val area: Area = Area(row, col ?: 0, options.size + 1, largestLine)
@@ -17,13 +18,15 @@ class Select(
     private var highlightedIndex = 0
 
 
-    override fun handleInput(key: Char) {
-        when (key) {
-            Component.Keybinds.UP -> if (highlightedIndex > 0) highlightedIndex--
-            Component.Keybinds.DOWN -> if (highlightedIndex < options.size - 1) highlightedIndex++
-            Component.Keybinds.WINDOWS_ENTER, Component.Keybinds.LINUX_ENTER -> onEnter(options[highlightedIndex])
+    override fun handleInput(ch: Char) {
+        if (isFocused) {
+            when (ch) {
+                ControllableComponent.Keybinds.UP -> if (highlightedIndex > 0) highlightedIndex--
+                ControllableComponent.Keybinds.DOWN -> if (highlightedIndex < options.size - 1) highlightedIndex++
+                ControllableComponent.Keybinds.WINDOWS_ENTER, ControllableComponent.Keybinds.LINUX_ENTER -> onEnter(options[highlightedIndex])
+            }
+            isDirty = true
         }
-        isDirty = true
     }
 
     override fun render() {

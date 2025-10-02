@@ -2,6 +2,7 @@ package tui
 
 import jline.TerminalFactory
 import tui.components.Component
+import tui.components.ControllableComponent
 import kotlin.Array
 
 class ScreenObject() {
@@ -19,11 +20,24 @@ class ScreenObject() {
     private var myFlag: Int? = null
 
     val components = mutableListOf<Component>()
+    val controllableComponents = mutableListOf<ControllableComponent>()
+
+    private var focusBooleanIndex: Int = 0
+
 
     fun renderAll(makeDirty: Boolean = false) { components.forEach {
         it.isDirty =  it.isDirty || makeDirty
         it.render()
     }}
+
+    fun handleInput(ch: Char) {
+        if (ch.code == 9) {
+            controllableComponents[focusBooleanIndex].onUnfocus()
+            focusBooleanIndex = (focusBooleanIndex + 1) % controllableComponents.size
+            controllableComponents[focusBooleanIndex].onFocus()
+        }
+        controllableComponents.forEach { it.handleInput(ch) }
+    }
 
     fun setFlag(flagArray: BooleanArray, flag: Int){
         globalFlagArray = flagArray
@@ -43,6 +57,9 @@ class ScreenObject() {
                 if (ownershipMatrix[row][col] != null) { error("Component $component overlaps another component at ($row, $col)") }
                 ownershipMatrix[row][col] = components.size
             }
+        }
+        if (component is ControllableComponent) {
+            controllableComponents.add(component)
         }
         components.add(component)
     }
