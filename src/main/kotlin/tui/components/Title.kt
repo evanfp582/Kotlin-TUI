@@ -2,7 +2,6 @@ package tui.components
 
 import tui.DebugLogger
 import tui.ScreenObject
-import kotlin.math.round
 
 class Title(
     override var screenObject: ScreenObject,

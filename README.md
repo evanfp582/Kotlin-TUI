@@ -9,13 +9,16 @@ Make a Kotlin Terminal User Interface from scratch
 Activities with higher priority are put to the top of the list.  
 I am not sure what I want to do with done tasks tbh. Maybe just leave them 
 
-- [ ] Better onEnter function for select
+- [x] Better onEnter function for select
   - Like the ability to go to multiple screens
+  - Created a version of a router
+- [ ] Design "Programs" screen for project homebase
 - [ ] Style in middle of text
   - I think I may have accidentally done this
 - [ ] **IN PROG: Normal Buttons**
   - I think it is weird I did not think of this earlier
   - I need to design a button and how to show when a button is pressed
+    - A little animation would be cool, but I do not think it is needed at this point
 - [X] Multiline text/components
     - Partially implemented
 - [X] Multiple screens
@@ -25,7 +28,8 @@ I am not sure what I want to do with done tasks tbh. Maybe just leave them
 - [X] Ownership of Curser 
   - Figure out ability to move cursor between components that can both use it
   - Tabbing between components feels like a pretty natural fix, but I do not know if I can shift tab, I do not know
-  - I have a rudimentary fix
+  - [x] I have a rudimentary fix
+  - [X] I have a real fix and it was simple! Tab starting in the top left and go left to right then top to bottom
 - [ ] ASCI ART. Boxes, borders, lines, cool text
 - Nested Components
 - [ ] Markdown parser 
@@ -46,7 +50,7 @@ I also made a "playground" main where I just mess with things. It is a very simi
 ```
 
 ### Debugger
-I am actually a litte proud on how quickly I was able to whip up a debug log because debugging in intelij for a TUI was a pain in the butt.  
+I am actually a little proud on how quickly I was able to whip up a debug log because debugging in IntelliJ for a TUI was a pain in the butt.  
 Whenever you want to keep track of a log just write `DebugLogger.log("MESSAGE)` and it will appear in debug.log with a timestamp.
 In order to keep track of the updating debug log you can run this command
 `Get-Content .\debug.log -Wait` while in the Kotlin-TUI directory 
@@ -60,7 +64,8 @@ on the terminal with special ANSI codes (found in the ANSI object)
 - UIManager
 - Terminal
 - DebugLogger
-- Components
+- Component
+  - ControllableComponent
 
 ### Component List:
 - Text- Simple text component
@@ -123,14 +128,26 @@ There are a few ways of doing this and I actually want to have fun with it
 
  I am undecided and will need to make a choice as soon as I finish designing this button component
 #### (10/1) 
-I have a quick and dirty solution with just an array whose order is determined by order of creation
+I have a quick and dirty solution with just an array whose order is determined by order of creation.  
 I am happy with how quickly I was able to throw it together though 
+
+### How to indicate being selected (10/3)
+I have a solution to maneuvering around the screen and I think it is a pretty easy and effective solution.  
+Simply I evaluate all the controllable components and sort them based on their up left positioning.  
+Check up and down then left and right. Meaning the lower the row the "less" the component and if there is a tie on the row it is determined by the column.  
+But now I have a new problem. For each controllable component how do I visually indicate that it is selected.  
+For buttons it is easy, simply invert everything, but for Select, and TextBox it is not as obvious.
+#### Project Homebase Update??
+Sometimes I forget I started this project just to make a cool TUI to go on my linux server  
+![Alt Text](./ProjectHomebase10-3.png)  
+How fun. Created using the glorious https://www.asciiart.eu/text-to-ascii-art
 
 
 ## Resources
 I used a bunch of public repos and resources to make this.  
-Here is an ongoing list:  
-Unicode Character list- https://github.com/ehmicky/cross-platform-terminal-characters
+### Here is an ongoing list:  
+Unicode Character list- https://github.com/ehmicky/cross-platform-terminal-characters  
+Custom ASCI text- https://www.asciiart.eu/text-to-ascii-art  
 A bunch of ASCI art websites. When I use a specific one I will make sure to credit the author, 
 otherwise I will credit the site that I used to generate the art
 

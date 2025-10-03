@@ -22,7 +22,8 @@ class ScreenObject() {
     val components = mutableListOf<Component>()
     val controllableComponents = mutableListOf<ControllableComponent>()
 
-    private var focusBooleanIndex: Int = 0
+    private var focusIndex: Int = 0
+    private var focusIndexOrder: List<Int> = emptyList()
 
 
     fun renderAll(makeDirty: Boolean = false) { components.forEach {
@@ -32,9 +33,13 @@ class ScreenObject() {
 
     fun handleInput(ch: Char) {
         if (ch.code == 9) {
-            controllableComponents[focusBooleanIndex].onUnfocus()
-            focusBooleanIndex = (focusBooleanIndex + 1) % controllableComponents.size
-            controllableComponents[focusBooleanIndex].onFocus()
+            if (controllableComponents.isNotEmpty()) {
+                val componentCurrentlyFocused = focusIndexOrder[focusIndex]
+                controllableComponents[componentCurrentlyFocused].onUnfocus()
+                focusIndex = (focusIndex + 1) % controllableComponents.size
+                val componentToFocus = focusIndexOrder[focusIndex]
+                controllableComponents[componentToFocus].onFocus()
+            }
         }
         controllableComponents.forEach { it.handleInput(ch) }
     }
@@ -63,7 +68,21 @@ class ScreenObject() {
         }
         components.add(component)
     }
-    fun addComponents(components: Array<Component>){ components.forEach { addComponent(it) }}
+    fun addComponents(components: Array<Component>){
+        /**
+         * Function used on the initialization of components on the screen
+         * After add components generate the focus order
+         */
+        components.forEach { addComponent(it) }
+        if (controllableComponents.isNotEmpty()){
+            focusIndexOrder = controllableComponents
+                .withIndex()
+                .sortedBy { it.value }
+                .map {it.index}
+            controllableComponents[focusIndexOrder[focusIndex]].onFocus()
+        }
+
+    }
 
     fun setString(row: Int, col: Int, string: String, style: String = "") {
         diffArray[row] = true

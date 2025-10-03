@@ -2,6 +2,7 @@ import kotlinx.coroutines.*
 import tui.Ansi
 import tui.ScreenObject
 import tui.UIManager
+import tui.components.Button
 import tui.components.Select
 import tui.components.Text
 import tui.components.TextBox
@@ -11,8 +12,8 @@ fun main(): Unit = runBlocking {
 
     val ui = UIManager()
     val screenRouter: Map<String, Int> = mapOf(
-        "Programs" to 1,
-        "Test Page" to 2,
+        "Service Dashboard" to 1,
+        "Applications" to 2,
         "README" to 3
     )
 
@@ -21,9 +22,9 @@ fun main(): Unit = runBlocking {
         ScreenObject().apply {
 
             addComponents(arrayOf(
-                Title(this, 3, null, title),
-                Text(this, 15, null, "Select where you'd like to go!", "${Ansi.TextStyles.BOLD}${Ansi.TextStyles.UNDERLINE}"),
-                Select(this, 16, null, listOf("Programs", "Test Page", "README"), { choice: String ->
+                Title(this, 2, null, title),
+                Text(this, 20, null, "Select where you'd like to go!", "${Ansi.TextStyles.BOLD}${Ansi.TextStyles.UNDERLINE}"),
+                Select(this, 21, null, listOf("Service Dashboard", "Applications", "README"), { choice: String ->
                     print(Ansi.Screen.CLEAR_SCREEN)
                     ui.flagArray[screenRouter[choice] ?: 1] = true
                 })
@@ -34,7 +35,11 @@ fun main(): Unit = runBlocking {
     ui.addScreen(
         ScreenObject().apply {
             addComponents(arrayOf(
-                Title(this, 3, null, "Welcome to the Programs page"),
+                Title(this, 3, null, "Welcome to the Service Dashboard page"),
+                Button(this, 10, 1),
+                Button(this, 10, 20),
+                Button(this, 10, 40),
+                Button(this, 10, 60),
             ))
         }
     )
@@ -43,7 +48,7 @@ fun main(): Unit = runBlocking {
     ui.addScreen(
         ScreenObject().apply {
             addComponents(arrayOf(
-                Title(this, 3, null, "Welcome to the Test Page page"),
+                Title(this, 3, null, "Welcome to the Applications page"),
             ))
         }
     )
@@ -61,11 +66,42 @@ fun main(): Unit = runBlocking {
 }
 
 val title ="""
-█████   ████           █████    ████   ███                 ███████████ █████  █████ █████ 
-░░███   ███░           ░░███    ░░███  ░░░                ░█░░░███░░░█░░███  ░░███ ░░███ 
- ░███  ███     ██████  ███████   ░███  ████  ████████     ░   ░███  ░  ░███   ░███  ░███  
- ░███████     ███░░███░░░███░    ░███ ░░███ ░░███░░███        ░███     ░███   ░███  ░███  
- ░███░░███   ░███ ░███  ░███     ░███  ░███  ░███ ░███        ░███     ░███   ░███  ░███  
- ░███ ░░███  ░███ ░███  ░███ ███ ░███  ░███  ░███ ░███        ░███     ░███   ░███  ░███  
- █████ ░░████░░██████   ░░█████  █████ █████ ████ █████       █████    ░░████████   █████ 
- ░░░░░   ░░░░  ░░░░░░     ░░░░░  ░░░░░ ░░░░░ ░░░░ ░░░░░       ░░░░░      ░░░░░░░░   ░░░░░ """.trimIndent()
+▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+▐         _____              _              _             ▌
+▐        |  __ \            (_)            | |            ▌
+▐        | |__) |_ __  ___   _   ___   ___ | |_           ▌
+▐        |  ___/| '__|/ _ \ | | / _ \ / __|| __|          ▌
+▐        | |    | |  | (_) || ||  __/| (__ | |_           ▌
+▐        |_|    |_|   \___/ | | \___| \___| \__|          ▌
+▐ _    _                   _/ |   _                       ▌
+▐| |  | |                 |__/   | |                      ▌
+▐| |__| |  ___   _ __ ___    ___ | |__    __ _  ___   ___ ▌
+▐|  __  | / _ \ | '_ ` _ \  / _ \| '_ \  / _` |/ __| / _ \▌
+▐| |  | || (_) || | | | | ||  __/| |_) || (_| |\__ \|  __/▌
+▐|_|  |_| \___/ |_| |_| |_| \___||_.__/  \__,_||___/ \___|▌
+▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌""".trimIndent()
+
+/**
+ * Alternate
+ * ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+ * ▐          ███████████                          ███                     █████         ▌
+ * ▐         ░░███░░░░░███                        ░░░                     ░░███          ▌
+ * ▐          ░███    ░███ ████████   ██████      █████  ██████   ██████  ███████        ▌
+ * ▐          ░██████████ ░░███░░███ ███░░███    ░░███  ███░░███ ███░░███░░░███░         ▌
+ * ▐          ░███░░░░░░   ░███ ░░░ ░███ ░███     ░███ ░███████ ░███ ░░░   ░███          ▌
+ * ▐          ░███         ░███     ░███ ░███     ░███ ░███░░░  ░███  ███  ░███ ███      ▌
+ * ▐          █████        █████    ░░██████      ░███ ░░██████ ░░██████   ░░█████       ▌
+ * ▐         ░░░░░        ░░░░░      ░░░░░░       ░███  ░░░░░░   ░░░░░░     ░░░░░        ▌
+ * ▐                                          ███ ░███                                   ▌
+ * ▐                                         ░░██████                                    ▌
+ * ▐                                          ░░░░░░                                     ▌
+ * ▐ █████   █████                                   █████                               ▌
+ * ▐░░███   ░░███                                   ░░███                                ▌
+ * ▐ ░███    ░███   ██████  █████████████    ██████  ░███████   ██████    █████   ██████ ▌
+ * ▐ ░███████████  ███░░███░░███░░███░░███  ███░░███ ░███░░███ ░░░░░███  ███░░   ███░░███▌
+ * ▐ ░███░░░░░███ ░███ ░███ ░███ ░███ ░███ ░███████  ░███ ░███  ███████ ░░█████ ░███████ ▌
+ * ▐ ░███    ░███ ░███ ░███ ░███ ░███ ░███ ░███░░░   ░███ ░███ ███░░███  ░░░░███░███░░░  ▌
+ * ▐ █████   █████░░██████  █████░███ █████░░██████  ████████ ░░████████ ██████ ░░██████ ▌
+ * ▐░░░░░   ░░░░░  ░░░░░░  ░░░░░ ░░░ ░░░░░  ░░░░░░  ░░░░░░░░   ░░░░░░░░ ░░░░░░   ░░░░░░  ▌
+ * ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+ */

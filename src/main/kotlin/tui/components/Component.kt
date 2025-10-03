@@ -2,7 +2,7 @@ package tui.components
 
 import tui.ScreenObject
 
-interface Component {
+interface Component: Comparable<Component> {
     var screenObject: ScreenObject
     var row: Int
     var col: Int?
@@ -26,6 +26,18 @@ interface Component {
                 "Title with width (${area.height}) exceeds terminal width of (${screenObject.terminalHeight})"
             )
         }
+    }
+
+    override fun compareTo(other: Component): Int {
+        // First compare by row
+        val rowComparison = row.compareTo(other.row)
+        if (rowComparison != 0) {
+            return rowComparison
+        }
+        // If rows are equal, compare by col
+        val thisCol = col ?: (screenObject.terminalWidth / 2)
+        val otherCol = other.col ?: (screenObject.terminalWidth / 2)
+        return thisCol.compareTo(otherCol)
     }
 
 }
