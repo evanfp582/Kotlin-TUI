@@ -8,6 +8,7 @@ import tui.components.Select
 import tui.components.Text
 import tui.components.TextBox
 import tui.components.Title
+import tui.components.ToggleButton
 
 fun main(): Unit = runBlocking {
 
@@ -39,7 +40,8 @@ fun main(): Unit = runBlocking {
                     Button(this, 8, 10, secondaryButton),
                     Button(this, 13, 20),
                     Select(this, 16, null, listOf("Programs", "Test Page", "README")),
-                    TextBox(this, 13, 50, 20, "Default String?")
+                    TextBox(this, 13, 50, 20, "Default String?"),
+                    ToggleButton(this, 11, 75, true)
                 )
             )
         }

@@ -52,6 +52,7 @@ class ScreenObject() {
     fun addComponent(component: Component) {
         val area = component.area
         // Check if area fits in screen
+        DebugLogger.log("Component ${component.toString()}:area row: ${area.row}, area col: ${area.col}, area width: ${area.width}, area height: ${area.height}, terminal width: $terminalWidth, terminal height: $terminalHeight")
         if (area.row + area.height > terminalHeight ||
             area.col + area.width > terminalWidth) {
             error("Component $component is too big for the screen")

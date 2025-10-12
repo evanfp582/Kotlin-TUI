@@ -15,10 +15,12 @@ I am not sure what I want to do with done tasks tbh. Maybe just leave them
 - [ ] Design "Programs" screen for project homebase
 - [ ] Style in middle of text
   - I think I may have accidentally done this
-- [ ] **IN PROG: Normal Buttons**
+- [X] Normal Buttons
   - I think it is weird I did not think of this earlier
   - I need to design a button and how to show when a button is pressed
-    - A little animation would be cool, but I do not think it is needed at this point
+  - I ended up separating this into two components. A button that does something when pressed and a toggle button 
+  that can be true or false and does things depending on what you want. A simple on and off switch 
+    - [ ] A little animation would be cool, but I do not think it is needed at this point
 - [X] Multiline text/components
     - Partially implemented
 - [X] Multiple screens

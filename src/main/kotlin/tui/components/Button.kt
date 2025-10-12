@@ -14,7 +14,6 @@ class Button(
 +------+""".trimIndent(),
 ): ControllableComponent {
     override var isFocused: Boolean = false
-    var isPressed: Boolean = false
 
     private var lines = buttonText.lines()
     private var height = lines.size

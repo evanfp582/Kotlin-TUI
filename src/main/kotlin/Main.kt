@@ -7,6 +7,7 @@ import tui.components.Select
 import tui.components.Text
 import tui.components.TextBox
 import tui.components.Title
+import tui.components.ToggleButton
 
 fun main(): Unit = runBlocking {
 
@@ -36,10 +37,14 @@ fun main(): Unit = runBlocking {
         ScreenObject().apply {
             addComponents(arrayOf(
                 Title(this, 3, null, "Welcome to the Service Dashboard page"),
-                Button(this, 10, 1),
-                Button(this, 10, 20),
-                Button(this, 10, 40),
-                Button(this, 10, 60),
+                Text(this, 6, 14, "Service 1"),
+                ToggleButton(this, 7, 2, false),
+                Text(this, 6, 56, "Service 2"),
+                ToggleButton(this, 7, 44, true),
+                Text(this, 6, 98, "Service 3"),
+                ToggleButton(this, 7, 86, true),
+                Text(this, 6, 140, "Service 4"),
+                ToggleButton(this, 7, 128, false),
             ))
         }
     )
