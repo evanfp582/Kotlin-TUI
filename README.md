@@ -34,7 +34,7 @@ I am not sure what I want to do with done tasks tbh. Maybe just leave them
   - [X] I have a real fix and it was simple! Tab starting in the top left and go left to right then top to bottom
 - [ ] ASCI ART. Boxes, borders, lines, cool text
 - Nested Components
-- [ ] Markdown parser 
+- [ ] **IN PROG: Markdown parser** 
   - so I can just turn my/any readme into a page in my app
 - [ ] Bouncing ball simulation
   - I don't have a good useful case where this would be important, but I just think dealing with the math,

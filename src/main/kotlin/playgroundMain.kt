@@ -4,6 +4,7 @@ import tui.Ansi
 import tui.ScreenObject
 import tui.UIManager
 import tui.components.Button
+import tui.components.MarkdownParser
 import tui.components.Select
 import tui.components.Text
 import tui.components.TextBox
@@ -35,13 +36,7 @@ fun main(): Unit = runBlocking {
         ScreenObject().apply {
             addComponents(
                 arrayOf(
-//                    Title(this, 3, null, title),
-                    Button(this, 3, null),
-                    Button(this, 8, 10, secondaryButton),
-                    Button(this, 13, 20),
-                    Select(this, 16, null, listOf("Programs", "Test Page", "README")),
-                    TextBox(this, 13, 50, 20, "Default String?"),
-                    ToggleButton(this, 11, 75, true)
+                    MarkdownParser(this, 0,0, "C:\\Users\\evanf\\Documents\\projects\\Kotlin-TUI\\README.md")
                 )
             )
         }
