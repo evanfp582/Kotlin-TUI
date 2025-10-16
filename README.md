@@ -36,6 +36,9 @@ I am not sure what I want to do with done tasks tbh. Maybe just leave them
 - Nested Components
 - [ ] **IN PROG: Markdown parser** 
   - so I can just turn my/any readme into a page in my app
+  - [X] Basic small single screen README Parser
+  - [ ] More advanced cases
+  - [ ] Multiscreen. I need the ability to go up and down the page. Vim keybinds?
 - [ ] Bouncing ball simulation
   - I don't have a good useful case where this would be important, but I just think dealing with the math,
   angles, and tick rate would be an interesting challenge to solve

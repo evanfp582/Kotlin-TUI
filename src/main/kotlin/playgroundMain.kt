@@ -36,7 +36,7 @@ fun main(): Unit = runBlocking {
         ScreenObject().apply {
             addComponents(
                 arrayOf(
-                    MarkdownParser(this, 0,0, "C:\\Users\\evanf\\Documents\\projects\\Kotlin-TUI\\README.md")
+                    MarkdownParser(this, 0,0, "C:\\Users\\evanf\\Documents\\projects\\Kotlin-TUI\\small_test_README.md")
                 )
             )
         }
